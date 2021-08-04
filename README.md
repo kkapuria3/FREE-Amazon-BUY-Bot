@@ -10,7 +10,7 @@ Please star my repo if this contribution helped you ! Its FREEE !
 Please Join Support & FAQ Discord if you have questions.
 
 ```
-# BestBuy Bot — Open Source GPU/PS5/Xbox Bot
+# FREE Amazon Bot — Open Source GPU/PS5/Xbox Bot
 
 ## Description
 
