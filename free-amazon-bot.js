@@ -116,7 +116,7 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                 $img1.setAttribute("src", iconUrl1);
                 $img2.setAttribute("src", iconUrl2);
                 $img3.setAttribute("src", iconUrl3);
-                var MAIN_TITLE = ("Open Source Amazon-Bot V1.0   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
+                var MAIN_TITLE = ("Open Source Amazon-Bot v1-beta   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
                 $BAGDE_BORDER.innerText = ("------------------------------------------------------------------------------------------------------------------------------------ ");
                 $text.innerText = MAIN_TITLE;
                 $mode.innerText = mode;
