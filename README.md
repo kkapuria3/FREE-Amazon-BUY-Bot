@@ -35,7 +35,6 @@ I built this in response to the severe tech scalping situation that's happening 
 
 ### Dependencies
 
-1. Install [Nerd Speak Extention](https://nerdspeak.net/tech/nerdspeak-stock-helper-extension/)
 2. Install [Tampermonkey Extention](https://www.tampermonkey.net/)
 3. Amazon Account 
 4. Please allow [Pop-Ups](https://www.isc.upenn.edu/how-to/configuring-your-web-browser-allow-pop-windows) for ```https://www.amazon.com/``` in your browser
