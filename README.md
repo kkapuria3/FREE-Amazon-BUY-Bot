@@ -44,7 +44,7 @@ I built this in response to the severe tech scalping situation that's happening 
 
 * Successfully download and install both extensions in your browser
 * Go to tampermonkey dashboard from broswer extension and create a new script
-* Delete all the contents and copy full code from [free-amazon-bot.js](https://raw.githubusercontent.com/kkapuria3/BestBuy-GPU-Bot/main/best-buy-tm.js)
+* Delete all the contents and copy full code from [free-amazon-bot.js](https://raw.githubusercontent.com/kkapuria3/Amazon-Bot/main/free-amazon-bot.js)
 * Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
 * Save the script
 
