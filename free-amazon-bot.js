@@ -17,7 +17,7 @@
 // - Dog Pages are not handled
 // 1.1-beta - Fixed Sellers Loop
 // - When in Sellers, Used items are not checked for
-// - Still No support for Amazon Captcha (Soft Ban) & Dog Pages 
+// - Still No support for Amazon Captcha (Soft Ban) & Dog Pages
 // - More code commented
 
 
@@ -386,13 +386,11 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                 setTimeout(function() {
 
 
-                        window.open('https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1', '_blank');
-                        window.close();
+
                 }, 3000)
 
                 // CART PAGE OPERATIONS
         } else if (document.URL.includes('/gp/cart/')) {
-
 
                 setTimeout(function() {
 
@@ -404,11 +402,22 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
                         }
 
-                }, 5000)
+                }, 2000)
 
 
         }
+            else if (document.URL.includes('hasWorkingJavascript')) {
 
+                var soundData1 = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
+                soundData1.play()
+
+                setTimeout(function() {
+
+
+                }, 10000)
+
+
+            }
 
         /*             else if(document.getElementById("a-box a-alert a-alert-info a-spacing-base")) {
 
