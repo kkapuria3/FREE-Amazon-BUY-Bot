@@ -393,9 +393,6 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                 // CART PAGE OPERATIONS
         } else if (document.URL.includes('/gp/cart/')) {
 
-                var soundData1 = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
-                soundData1.play()
-
 
                 setTimeout(function() {
 
