@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name     Amazon-RefreshNoBot
 // @include  https://www.amazon.com/*
-// @version      3.0
+// @version      v1.1-beta
 // @description  This aint bot, its RefreshNoBot
 // @author       Karan Kapuria
 // @grant        window.close
@@ -15,6 +15,11 @@
 // - Code is not complete commented.
 // - No support for Amazon Captcha (Soft Ban) - Future support with local flask server
 // - Dog Pages are not handled
+// 1.1-beta - Fixed Sellers Loop
+// - When in Sellers, Used items are not checked for
+// - Still No support for Amazon Captcha (Soft Ban) & Dog Pages 
+// - More code commented
+
 
 // ==/UserScript==
 
@@ -42,8 +47,8 @@
 //____ REQUIRED FLAGS : AMAZON ID & PRICE CUTOFF _________________________
 
 
-let PRODUCT_ARRAY = ["B08R14HX34", "B096YQ6WVW", "B08V1ZJP93", "B08LF1CWT2", "B08R133PYZ"];
-const CUTOFF_ARRAY = [500, 500, 650, 500, 500]; // No quotes
+let PRODUCT_ARRAY = ["B097HR17XB", "B096YM573B", "B096WM6JFS", "B096YMW2FS", "B09B1DGRH4"];
+const CUTOFF_ARRAY = [500, 500, 500, 500, 500]; // No quotes
 
 //____ REQUIRED FLAGS : TESTMODE OR BUY MODE _____________________________
 
@@ -116,7 +121,7 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                 $img1.setAttribute("src", iconUrl1);
                 $img2.setAttribute("src", iconUrl2);
                 $img3.setAttribute("src", iconUrl3);
-                var MAIN_TITLE = ("Open Source Amazon-Bot v1-beta   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
+                var MAIN_TITLE = ("Open Source Amazon-Bot v1.1-beta   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
                 $BAGDE_BORDER.innerText = ("------------------------------------------------------------------------------------------------------------------------------------ ");
                 $text.innerText = MAIN_TITLE;
                 $mode.innerText = mode;
@@ -185,78 +190,81 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                                 console.log('Open extra sellers')
                                 //console.log(New_Sellers)
 
-                                // Get seller prices and seller buttons.
-                                var Seller_Prices = document.getElementsByClassName("a-price-whole");
+                                // We are directly parsing all the sellers ADD TO CART BUTTONS
                                 var Seller_Buttons = document.getElementsByClassName("a-button-input");
-                                //____ BUTTONS LOOP - we are gonna be fine ~!
-                                // We will loop over all the found buttons and then try to get valid ATC buttons
-                                for (var i = 0; i < Seller_Prices.length; i++) {
 
-                                        //console.log(slides.item(i).innerHTML);
-                                        // Parsing the seller price
-                                        var Seller_list_price = Seller_Prices.item(i).innerHTML
-                                        // Assigning button to seller price
-                                        var Seller_button_index = Seller_Buttons.item(i)
-                                        Seller_list_price = Seller_list_price.match(NUMERIC_REGEXP).join('')
-                                        // just some fancy console logs -- You made it here ??
-                                        console.log(Seller_Buttons[i].outerHTML.includes('aria-label="Add to Cart'))
-                                        console.log('Price: ' + Seller_list_price + ' | ButtonID : ' + Seller_button_index + ' | Button Number : ' + i + ' | Button TimeStamp' + Date.now() + '\n')
-                                        //if (Seller_Buttons[i].outerHTML.includes('aria-label="Add to Cart'))
+                                // We will loop over all the found buttons and then try to get ATC button where SELLER_PRICE is lower than CUTOFF_PRICE
+                                for (var i = 0; i < Seller_Buttons.length; i++) {
 
+                                        // Getting Seller Button Data
+                                        var SELLER_BUTTON_DATA = Seller_Buttons.item(i)
 
-                                        if (Seller_list_price < CUTOFF_PRICE) {
+                                        // Getting Seller Price from Outter HTML of button
+                                        var SELLER_PRICE = Seller_Buttons[i].outerHTML.match(NUMERIC_REGEXP).join('')
+                                        //console.log(SELLER_PRICE)
 
-                                                // BUG TRIGGER
-                                                if (Seller_Buttons[i].outerHTML.includes('aria-label="Add to Cart') == true) {
+                                        // If SELLER_PRICE is less than CUTOFF_PRICE and SELLER_PRICE is Greater than 0 (to eliminate pseudo buttons)
+                                        if (SELLER_PRICE < CUTOFF_PRICE && SELLER_PRICE > 0) {
 
-                                                        Seller_Buttons[i].click();
-                                                }
+                                                const $badge = createFloatingBadge('PRICE MATCH FOUND..', SELLER_PRICE);
+                                                document.body.appendChild($badge);
 
 
-                                        } else {
+                                                setTimeout(function() {
+                                                        window.open("https://www.amazon.com/gp/cart/view.html", '_blank');
+                                                        window.close()
+
+                                                }, 2000)
+
+                                                // BUY WILL BE TRIGGERED HERE
+                                                console.log('LOW Price: ' + SELLER_PRICE + ' | ButtonID : ' + SELLER_BUTTON_DATA + ' | Button Number : ' + i + ' | Button TimeStamp' + Date.now() + '\n')
+                                                Seller_Buttons[i].click();
+
+
+                                                // If SELLER_PRICE IS HIGHER than CUTOFF_PRICE | Print the details to badge and move forward
+                                        } else if (SELLER_PRICE > CUTOFF_PRICE && SELLER_PRICE > 0 && SELLER_PRICE < (CUTOFF_PRICE + 2000)) {
+
                                                 //refresh
-                                                if (Seller_Buttons[i].outerHTML.includes('aria-label="Add to Cart') == true) {
-                                                        console.log('Price is High')
-                                                        var BADGE_SELLER_DETAILS = ' PRICE HIGHER | $:' + Seller_list_price + ' | BUTTON DATA : ' + Seller_button_index + ' | BUTTON NUMBER : ' + i + ' | TIMESTAMP : ' + Date.now() + '◻️ ◻️ ◻️ ◻️ ◻️'
-                                                        PRICES_BADGE.push(BADGE_SELLER_DETAILS)
-                                                }
+                                                console.log('HIGH Price: ' + SELLER_PRICE + ' | ButtonID : ' + SELLER_BUTTON_DATA + ' | Button Number : ' + i + ' | Button TimeStamp' + Date.now() + '\n')
+                                                //console.log('Price is High')
+                                                var BADGE_SELLER_DETAILS = ' PRICE HIGHER | $:' + SELLER_PRICE + ' | BUTTON DATA : ' + SELLER_BUTTON_DATA + ' | BUTTON NUMBER : ' + i + ' | TIMESTAMP : ' + Date.now() + '◻️ ◻️ ◻️ ◻️ ◻️'
+                                                PRICES_BADGE.push(BADGE_SELLER_DETAILS)
+
 
                                         }
+                                        // Count Total Valid SELLER_BUTTON
+                                        const TOTAL_ITEMS = 'Total Items : ' + PRICES_BADGE.length
 
-                                        setTimeout(function() {
-                                                console.log(PRICES_BADGE)
-                                                const TOTAL_ITEMS = 'Total Items : ' + PRICES_BADGE.length
+                                        // Change hieght of badge based on total items retrieved
 
-                                                if (i >= 11) {
-                                                        const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE, 330);
-                                                        document.body.appendChild($badge);
-                                                        $badge.style.transform = "translate(0, 0)"
-                                                } else if (i >= 6) {
-                                                        const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE, 250);
-                                                        document.body.appendChild($badge);
-                                                        $badge.style.transform = "translate(0, 0)"
-                                                } else {
-                                                        const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE);
-                                                        document.body.appendChild($badge);
-                                                        $badge.style.transform = "translate(0, 0)"
-                                                }
-
-                                        }, 1000)
+                                        if (i >= 11) {
+                                                const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE, 330);
+                                                document.body.appendChild($badge);
+                                                $badge.style.transform = "translate(0, 0)"
+                                        } else if (i > 6) {
+                                                const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE, 250);
+                                                document.body.appendChild($badge);
+                                                $badge.style.transform = "translate(0, 0)"
+                                        } else {
+                                                const $badge = createFloatingBadge(TOTAL_ITEMS, PRICES_BADGE);
+                                                document.body.appendChild($badge);
+                                                $badge.style.transform = "translate(0, 0)"
+                                        }
 
 
                                 }
 
 
 
+                        }, 6000)
+                        console.log('START CHECKING SELLERS NOW ..')
 
-                        }, 5000)
-                        console.log('timeout2');
-
-                        //setTimeout(function(){console.log("Main Product Page Redirect")},10000)
                         setTimeout(function() {
                                 location.href = "https://www.amazon.com/dp/" + AMAZON_PRODUCT_ID + "/"
                         }, 10000)
 
+                        // MAIN PRODUCT PAGE OPERATIONS
+                        // If price exists in MAIN BUY BOX or NEW BUY BOX then check if its less than CUTOFF or else go to sellers page
                 } else if (document.getElementById("price_inside_buybox") || document.getElementById("newBuyBoxPrice")) {
 
                         if (document.getElementById("price_inside_buybox")) {
@@ -266,20 +274,17 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                                 Title_Price = document.getElementById("newBuyBoxPrice").innerHTML;
                         }
 
-
-
+                        // Parse the Title Price
                         Title_Price = Title_Price.match(NUMERIC_REGEXP).join('')
 
-                        console.log(Title_Price)
+                        //console.log(Title_Price)
                         var Title_Price1 = 'Title Price : ' + Title_Price
                         const $badge = createFloatingBadge(Title_Price1, 'We will check resellers now ...');
                         document.body.appendChild($badge);
                         $badge.style.transform = "translate(0, 0)"
-                        GM_setValue('value', 'test')
-                        const value = GM_getValue('value', 1)
-                        console.log(value)
 
-                        if (Title_Price <= 500) {
+
+                        if (Title_Price <= CUTOFF_PRICE) {
 
                                 console.log('Buy Trigger')
                                 document.getElementsByClassName("a-button-input attach-dss-atc")[0].click();
@@ -311,7 +316,6 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
                                 location.href = "https://www.amazon.com/gp/offer-listing/" + AMAZON_PRODUCT_ID + "/ref=dp_olp_unknown_mbc";
                         }, 3000)
-
 
 
 
@@ -370,7 +374,7 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
 
 
-
+                // FIRST PAGE ATC PAGE OPERATIONS
         } else if (document.URL.includes('huc')) {
                 console.log(document.URL)
 
@@ -385,7 +389,29 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                         window.open('https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1', '_blank');
                         window.close();
                 }, 3000)
+
+                // CART PAGE OPERATIONS
+        } else if (document.URL.includes('/gp/cart/')) {
+
+                var soundData1 = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
+                soundData1.play()
+
+
+                setTimeout(function() {
+
+                        if (document.getElementsByClassName("a-size-medium a-color-base sc-price sc-white-space-nowrap")) {
+                                location.href = 'https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1'
+                        } else {
+
+                                console.log('Empty Cart')
+
+                        }
+
+                }, 5000)
+
+
         }
+
 
         /*             else if(document.getElementById("a-box a-alert a-alert-info a-spacing-base")) {
 
