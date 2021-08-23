@@ -1,4 +1,4 @@
-<img src="resources/new_logo.gif">
+<img src="resources/new_logo1.gif">
 
 * Support & FAQ Discord : <a href="https://discord.gg/UcxcyxS5X8"><img src="https://discord.com/assets/f9bb9c4af2b9c32a2c5ee0014661546d.png" width="18" height="18"></img></a>
 
