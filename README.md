@@ -60,9 +60,9 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 3. Now go to your TamperMonkey script and Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
 
-4. You are all set. Now navigate to your item page and you should see the bot work. 
-
 <img src="resources/flags.gif">
+
+4. You are all set. Now navigate to your item page and you should see the bot work. 
 
 ## Authors
 
