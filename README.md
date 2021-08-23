@@ -1,7 +1,6 @@
 <img src="resources/new_logo.gif">
 
 * Support & FAQ Discord : <a href="https://discord.gg/UcxcyxS5X8"><img src="https://discord.com/assets/f9bb9c4af2b9c32a2c5ee0014661546d.png" width="18" height="18"></img></a>
-* **Supports all the browsers. This bot is in beta version, please read Version History** 
 
 ```
 
@@ -10,22 +9,18 @@ Please star my repo if this contribution helped you ! Its FREEE !
 Please Join Support & FAQ Discord if you have questions.
 
 ```
-# BEST FREE Amazon Bot — Open Source GPU/PS5/Xbox Bot
+# FREE Amazon Buy Bot — Open Source GPU/PS5/Xbox Bot
 
 ## Description
 
-Amazon Bot is an Add to Cart and Auto Checkout Bot. This auto buying bot can search **multiple** item repeatedly on the item page using `AMAZON_PRODUCT_ID`. Once the desired item is available it can add to cart and checkout very fast. This auto purchasing Bot works on browsers so it can run in all Operating Systems. It can run for multiple items simultaneously.
+FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bot can search **multiple** item repeatedly on the item page using `AMAZON_PRODUCT_ID`. Once the desired item is available it can add to cart and checkout very fast. This auto purchasing Bot works on browsers so it can run in all Operating Systems. It can run for multiple items simultaneously.
 
 "Running a bot can increase your success chances only ; but does not guarantee that you will successfully cart each time. If you do not agree, then please do not use this code."
 
 ## Why???
 
-I built this in response to the severe tech scalping situation that's happening right now. Almost every tech product that's coming out right now is being instantly brought out by scalping groups and then resold at at insane prices. $699 GPUs are being listed for $1700 on eBay, and these scalpers are buying 40 carts while normal consumers can't get a single one. Preorders for the PS5 are being resold for nearly $1000. My take on this is that if I release a bot that anyone can use, for free, then the number of items that scalpers can buy goes down and normal consumers can buy items for MSRP. If everyone is botting, then no one is botting.
+I built this in response to the severe tech scalping situation that's happening right now. Almost every tech product that's coming out right now is being instantly brought out by scalping groups and then resold at at insane prices. $699 GPUs are being listed for $1700 on eBay, and these scalpers are buying 40 carts while normal consumers can't get a single one. Preorders for the PS5 are being resold for nearly $1000. My take on this is that if I release a bot that anyone can use, for free, then the number of items that scalpers can buy goes down and normal consumers can buy items for MSRP. If everyone is botting, then no one is botting. (*inspired from FairGame*)
 
-
-```
-#fairgame
-```
 
 ## Getting Started
 
@@ -35,18 +30,41 @@ I built this in response to the severe tech scalping situation that's happening 
 
 ### Dependencies
 
-2. Install [Tampermonkey Extention](https://www.tampermonkey.net/)
-3. Amazon Account 
-4. Please allow [Pop-Ups](https://www.isc.upenn.edu/how-to/configuring-your-web-browser-allow-pop-windows) for ```https://www.amazon.com/``` in your browser
+#### 1. Browser Dependencies
 
+1. Install [Tampermonkey Extention](https://www.tampermonkey.net/)
+2. Amazon Account 
+3. Please allow [Pop-Ups](https://www.isc.upenn.edu/how-to/configuring-your-web-browser-allow-pop-windows) for ```https://www.amazon.com/``` in your browser
+
+#### 2. Local Dependencies
+
+1. Python 3.7+ in a Terminal. You can use either [WSL2](https://docs.microsoft.com/en-us/windows/wsl/about) or [CMD](https://www.google.com/search?client=firefox-b-1-d&q=windows+command+prompt) or [PowerShell](https://docs.microsoft.com/en-us/powershell/) or [Ananconda Prompt](https://docs.anaconda.com/anaconda/user-guide/getting-started/) to run python.
 
 ### Installing
 
-* Successfully download and install both extensions in your browser
+#### 1. Browser Dependencies
+
 * Go to tampermonkey dashboard from broswer extension and create a new script
 * Delete all the contents and copy full code from [free-amazon-bot.js](https://raw.githubusercontent.com/kkapuria3/Amazon-Bot/main/free-amazon-bot.js)
-* Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
 * Save the script
+
+#### 2. Local Dependencies
+* Clone this repository to a folder you like with command `git clone https://github.com/kkapuria3/Best-Amazon-Bot.git`
+* Navigate to location where you cloned this; using your favourite shell
+* Run `pip install -r requirements.txt`
+
+### Running Bot
+
+1. From your terminal, inside the cloned location run `gunicorn capcha_server:app`. It will look like this.
+
+<img src="resources/python_shell.gif">
+
+2. Go to [`http://localhost:8000/`](http://localhost:8000/) on your browser. When do this it will print ` [capcha_server] [INFO] [Server is listening ..]` in your console. And your browser will look like:
+
+<img src="resources/server_running.gif">
+
+3. Now go to your TamperMonkey script and Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
+
 
 <img src="resources/flags.gif">
 
