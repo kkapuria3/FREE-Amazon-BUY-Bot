@@ -54,11 +54,11 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 <img src="resources/python_shell.gif">
 
-2. Go to [`http://localhost:8000/`](http://localhost:8000/) on your browser. Check your terninal. It will show ` [capcha_server] [INFO] [Server is listening ..]` in your console. And your browser will look like:
+2. Go to [`http://localhost:8000/`](http://localhost:8000/) on your browser. And your browser will look like:
 
 <img src="resources/server_running.gif">
 
-3. Now go to your TamperMonkey script and Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
+3. Now go to our TamperMonkey script and Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
 
 <img src="resources/flags.gif">
 
@@ -77,8 +77,13 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 * - Code is not complete commented.
 * - No support for Amazon Captcha (Soft Ban) - Future support with local flask server
 * - Dog Pages are not handled
+* 1.1-beta - Fixed Sellers Loop
+* - When in Sellers, Used items are not checked for
+* - Still No support for Amazon Captcha (Soft Ban) & Dog Pages
+* - More code commented
 * 2.0 - Fully Functional Bot with Local Gunicorn Server
-* - Using `flask`, `gunicorn` and `amazoncapcha` we solve Amazon Captcha (Soft Ban)
+* - Using `flask`, `gunicorn` and `amazoncapcha`; we solve Amazon Captcha (Soft Ban)
+* - Faster page reload on seller pages (4 Seconds)
 * - Code is still not complete commented.
 * - Dog Pages are still not handled
 * - No autocheckout yet. Will be released as minor update later.
