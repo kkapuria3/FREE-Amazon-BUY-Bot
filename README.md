@@ -13,14 +13,9 @@ Please Join Support & FAQ Discord if you have questions.
 
 ## Description
 
-FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bot can search **multiple** item repeatedly on the item page using `AMAZON_PRODUCT_ID`. Once the desired item is available it can add to cart and checkout very fast. This auto purchasing Bot works on browsers so it can run in all Operating Systems. It can run for multiple items simultaneously.
+FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bot can search **multiple** item repeatedly on the item page using `AMAZON_PRODUCT_ID`. Once the desired item is available it can add to cart and checkout very fast. This auto purchasing Bot works on browsers so it can run in all Operating Systems. It can run for multiple items simultaneously. It can bypass Amazon Captcha.
 
 "Running a bot can increase your success chances only ; but does not guarantee that you will successfully cart each time. If you do not agree, then please do not use this code."
-
-## Why???
-
-I built this in response to the severe tech scalping situation that's happening right now. Almost every tech product that's coming out right now is being instantly brought out by scalping groups and then resold at at insane prices. $699 GPUs are being listed for $1700 on eBay, and these scalpers are buying 40 carts while normal consumers can't get a single one. Preorders for the PS5 are being resold for nearly $1000. My take on this is that if I release a bot that anyone can use, for free, then the number of items that scalpers can buy goes down and normal consumers can buy items for MSRP. If everyone is botting, then no one is botting. (*inspired from FairGame*)
-
 
 ## Getting Started
 
@@ -59,12 +54,13 @@ I built this in response to the severe tech scalping situation that's happening 
 
 <img src="resources/python_shell.gif">
 
-2. Go to [`http://localhost:8000/`](http://localhost:8000/) on your browser. When do this it will print ` [capcha_server] [INFO] [Server is listening ..]` in your console. And your browser will look like:
+2. Go to [`http://localhost:8000/`](http://localhost:8000/) on your browser. Check your terninal. It will show ` [capcha_server] [INFO] [Server is listening ..]` in your console. And your browser will look like:
 
 <img src="resources/server_running.gif">
 
 3. Now go to your TamperMonkey script and Add the 10 digit Amazon item code in `AMAZON_PRODUCT_ID` array and respective cut-off price in `CUTOFF_ARRAY`
 
+4. You are all set. Now navigate to your item page and you should see the bot work. 
 
 <img src="resources/flags.gif">
 
@@ -81,7 +77,11 @@ I built this in response to the severe tech scalping situation that's happening 
 * - Code is not complete commented.
 * - No support for Amazon Captcha (Soft Ban) - Future support with local flask server
 * - Dog Pages are not handled
-
+* 2.0 - Fully Functional Bot with Local Gunicorn Server
+* - Using `flask`, `gunicorn` and `amazoncapcha` we solve Amazon Captcha (Soft Ban)
+* - Code is still not complete commented.
+* - Dog Pages are still not handled
+* - No autocheckout yet. Will be released as minor update later.
 
 ## License
 
