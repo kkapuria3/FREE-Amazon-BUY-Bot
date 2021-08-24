@@ -72,11 +72,11 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 * Join our discord community [here](https://discord.gg/UcxcyxS5X8)
 * Ask in #general-help channel if you have problems setting up. 
-* Drops alerts on our [discord](https://discord.gg/UcxcyxS5X8) are forwared from multiple third-party telegrams.
+* Drops alerts on our [discord](https://discord.gg/UcxcyxS5X8) are forwarded from multiple third-party telegrams.
 
 ## Authors
 
-* Karan Kapuria
+* [Karan Kapuria](https://kkapuria3.github.io/)
 
 <a href="https://www.buymeacoffee.com/kapuriakaran" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
