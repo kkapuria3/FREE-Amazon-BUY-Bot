@@ -1,6 +1,6 @@
 <img src="resources/new_logo1.gif">
 
-![Discord](https://img.shields.io/discord/863863008329596968?style=for-the-badge)
+![Discord](https://img.shields.io/discord/863863008329596968?color=%237289da%20&label=JOIN%20DISCORD&style=for-the-badge)
 
 ```
 
