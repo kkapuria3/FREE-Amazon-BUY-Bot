@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name     Amazon-RefreshNoBot
 // @include  https://www.amazon.com/*
-// @version      v1.1-beta
+// @include  http://localhost:800*
+// @version      v2.0
 // @description  This aint bot, its RefreshNoBot
 // @author       Karan Kapuria
 // @grant        window.close
-// @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
-// @grant        GM_addValueChangeListener
+// @grant        GM_xmlhttpRequest
 
 // Version Changelog
 // 1.0-beta - Runs only Testmode.
@@ -19,7 +19,13 @@
 // - When in Sellers, Used items are not checked for
 // - Still No support for Amazon Captcha (Soft Ban) & Dog Pages
 // - More code commented
-
+// 2.0 - Fully Functional Bot with Local Gunicorn Server
+// - Using flask, gunicorn and amazoncapcha; we solve Amazon Captcha (Soft Ban)
+// - Faster page reload on seller pages (4 Seconds)
+// - When cart is disabled with Dog Pages, it will refresh cart every 10 second
+// - When resellers are disabled, bot will show 0 items and refresh
+// - No autocheckout yet. Will be released as minor update later.
+// - More code commented
 
 // ==/UserScript==
 
@@ -47,14 +53,18 @@
 //____ REQUIRED FLAGS : AMAZON ID & PRICE CUTOFF _________________________
 
 
-let PRODUCT_ARRAY = ["B097HR17XB", "B096YM573B", "B096WM6JFS", "B096YMW2FS", "B09B1DGRH4"];
+let PRODUCT_ARRAY = ["B08WM28PVH", "B096YM573B", "B096WM6JFS", "B096YMW2FS", "B09B1DGRH4"];
 const CUTOFF_ARRAY = [500, 500, 500, 500, 500]; // No quotes
 
 //____ REQUIRED FLAGS : TESTMODE OR BUY MODE _____________________________
 
-const TESTMODE = "Yes" // TESTMODE = "No" will buy the card.
+const TESTMODE = "Yes" // This flag is unused. Will be implemented in next release
 
-//____ MAIN CODE :  _____________________
+
+//________________________________________________________________________
+
+//                       MAIN CODE : DO NOT CHANGE
+//________________________________________________________________________
 
 const PRODUCT_URL = document.URL
 
@@ -63,7 +73,59 @@ const NUMERIC_REGEXP = /[-]{0,1}[\d]*[.]{0,1}[\d]+/g;
 
 const RETRY_COUNT = 1
 
-//____ MAIN CODE :  ___________ loop over product array and try to be nice
+//________________________________________________________________________
+
+//                        MAIN CODE : CAPTCHA PAGES
+//________________________________________________________________________
+
+if (document.getElementsByClassName("a-box a-alert a-alert-info a-spacing-base").length > 0) {
+
+        console.log(document.getElementsByClassName("a-box a-alert a-alert-info a-spacing-base"))
+        console.log('CAPCTHA PAGE')
+
+        var Oh_No_Its_Some_Captcha = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
+        Oh_No_Its_Some_Captcha.play()
+
+        //"\n<img src=\"https://images-na.ssl-images-amazon.com/captcha/dddfleoy/Captcha_lkdgslujsl.jpg\">\n
+
+        var IMAGE_URL = document.getElementsByClassName("a-row a-text-center")[1].innerHTML.split('captcha/')[1]
+        var FIRST_ELEMENT = IMAGE_URL.split('/')[0]
+        var SECOND_ELEMENT_Raw = IMAGE_URL.split('/')[1]
+        var SECOND_ELEMENT = SECOND_ELEMENT_Raw.split('">')[0]
+        console.log(SECOND_ELEMENT)
+
+        const CAPTCHA_URL = 'http://localhost:8000/url/' + FIRST_ELEMENT + '/' + SECOND_ELEMENT
+        console.log(CAPTCHA_URL)
+        GM_xmlhttpRequest({
+                method: "POST",
+                url: CAPTCHA_URL,
+                onload: function(response) {
+
+                        console.log(response.response);
+                        GM_setValue(CAPTCHA_URL, response.response);
+
+
+                }
+        })
+
+
+        setTimeout(function() {
+
+                const SOLUTION = GM_getValue(CAPTCHA_URL);
+                document.getElementById("captchacharacters").value = SOLUTION
+                document.getElementsByClassName('a-button-text')[0].click()
+
+        }, 9000)
+
+
+
+
+}
+
+//________________________________________________________________________
+
+//                   MAIN CODE : ITEM PAGE OPERATIONS
+//________________________________________________________________________
 
 for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
@@ -121,7 +183,7 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                 $img1.setAttribute("src", iconUrl1);
                 $img2.setAttribute("src", iconUrl2);
                 $img3.setAttribute("src", iconUrl3);
-                var MAIN_TITLE = ("Open Source Amazon-Bot v1.1-beta   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
+                var MAIN_TITLE = ("Open Source Amazon-Bot v2.0   ◻️   TESTMODE: " + TESTMODE + "   ◻️   ITEM KEYWORD: " + AMAZON_PRODUCT_ID + "   ◻️   CUTOFF PRICE : " + CUTOFF_PRICE);
                 $BAGDE_BORDER.innerText = ("------------------------------------------------------------------------------------------------------------------------------------ ");
                 $text.innerText = MAIN_TITLE;
                 $mode.innerText = mode;
@@ -184,11 +246,13 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
                         document.body.appendChild($badge);
                         $badge.style.transform = "translate(0, 0)"
                         const PRICES_BADGE = [];
+                        console.log('START CHECKING SELLERS NOW ..')
                         //____ TIMEOUT :  _____
                         setTimeout(function() {
 
                                 console.log('Open extra sellers')
                                 //console.log(New_Sellers)
+
 
                                 // We are directly parsing all the sellers ADD TO CART BUTTONS
                                 var Seller_Buttons = document.getElementsByClassName("a-button-input");
@@ -256,12 +320,11 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
 
 
-                        }, 6000)
-                        console.log('START CHECKING SELLERS NOW ..')
+                        }, 4000)
 
                         setTimeout(function() {
                                 location.href = "https://www.amazon.com/dp/" + AMAZON_PRODUCT_ID + "/"
-                        }, 10000)
+                        }, 6000)
 
                         // MAIN PRODUCT PAGE OPERATIONS
                         // If price exists in MAIN BUY BOX or NEW BUY BOX then check if its less than CUTOFF or else go to sellers page
@@ -349,6 +412,7 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
 
                 }
+                // When no title price is found
                 if (document.getElementById("outOfStock") && document.getElementsByClassName("aod-message-component")) {
 
                         const $badge = createFloatingBadge('Title Price Empty', "Refreshing...");
@@ -366,97 +430,112 @@ for (let i = 0; i < PRODUCT_ARRAY.length; i++) {
 
 
 
-
                         }, 5000)
 
 
                 }
 
 
-
-                // FIRST PAGE ATC PAGE OPERATIONS
-        } else if (document.URL.includes('huc')) {
-                console.log(document.URL)
-
-
-
-                var soundData = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
-                soundData.play()
-
-                setTimeout(function() {
-
-
-
-                }, 3000)
-
-                // CART PAGE OPERATIONS
-        } else if (document.URL.includes('/gp/cart/')) {
-
-                setTimeout(function() {
-
-                        if (document.getElementsByClassName("a-size-medium a-color-base sc-price sc-white-space-nowrap")) {
-                                location.href = 'https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1'
-                        } else {
-
-                                console.log('Empty Cart')
-
-                        }
-
-                }, 2000)
-
-
         }
-            else if (document.URL.includes('hasWorkingJavascript')) {
-
-                var soundData1 = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
-                soundData1.play()
-
-                setTimeout(function() {
 
 
-                }, 10000)
+}
+
+//________________________________________________________________________
+
+//                 MAIN CODE : LOCAL HOST TESTING
+//________________________________________________________________________
+
+// If on http://localhost:8000/, then play the sound and send test request. Check solution for test request in your terminal
+if (document.URL.includes('http://localhost:8000/')) {
+
+        var DA_TA_DA = new Audio("https://github.com/kkapuria3/Best-Amazon-Bot/blob/dev-v2.0/resources/dramatic-sound-effect.wav?raw=true");
+        DA_TA_DA.play()
 
 
-            }
+        GM_xmlhttpRequest({
+                method: "POST",
+                url: "http://localhost:8000/url/dddfleoy/Captcha_lkdgslujsl.jpg",
+                onload: function(response) {
 
-        /*             else if(document.getElementById("a-box a-alert a-alert-info a-spacing-base")) {
-
-                        window.open('http://127.0.0.1:5000/', '_blank');
-
-
-                        let SECRET_RETURNED = GM_getValue('SOLUTION');
-                        console.log(SECRET_RETURNED)
-
-                        setTimeout(function(){location.href = "https://www.amazon.com/dp/"+AMAZON_PRODUCT_ID+"/"},10000)
+                        console.log(response.response);
+                        GM_setValue('TEST_RESPONSE', response.response);
 
 
-                    }
-                      else if(location.href.includes('http://127.0.0.1:5000/')) {
+                }
+        })
+}
+
+//________________________________________________________________________
+
+//                        MAIN CODE : DOG PAGES
+//________________________________________________________________________
+else if (document.getElementById('d').alt.includes('Dogs')) {
+
+        console.log('Dogs of Amazon')
+        setTimeout(function() {
+
+                location.href = 'https://www.amazon.com/gp/cart/view.html'
+
+        }, 10000)
 
 
-                        const SOLUTION = 'test'
+}
+//________________________________________________________________________
 
-                        GM_xmlhttpRequest ( {
-                            method:     "POST",
-                            url:        "http://127.0.0.1:5000/url/",
-                            onload:     function (response) {
-                                SOLUTION = response.response
-                                console.log (response.response);
+//                 MAIN CODE : FINAL CHECKOUT PAGE
+//________________________________________________________________________
+// If Page is in Final Checkout Play the sound
+else if (document.URL.includes('/gp/buy/spc/handlers/')) {
 
-                            }})
+        var soundData1 = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
+        soundData1.play()
 
-                        GM_setValue ('SOLUTION', SOLUTION);
-
-                        let SECRET_RETURNED = GM_getValue('SOLUTION');
-                        console.log(SECRET_RETURNED)
-
-                          location
+        setTimeout(function() {
 
 
+        }, 10000)
+
+
+}
+// On Cart Page, check if any item in cart. It can be any item. Page will redirect to Final Checkout.
+else if (document.URL.includes('/gp/cart/')) {
+
+        setTimeout(function() {
+
+                if (document.getElementsByClassName("a-size-medium a-color-base sc-price sc-white-space-nowrap").length > 0) {
+
+                        location.href = 'https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1'
+
+                } else if (document.getElementById("g").innerHTML.includes('ref=cs_503_link') == true) {
+
+
+                        console.log('Amazon 503 Cart error. Lets try cart again in 5 seconds')
+                        setTimeout(function() {
+                                location.href = 'https://www.amazon.com/gp/cart/view.html'
+                        }, 5000)
+
+
+                } else {
+
+                        console.log('Empty Cart')
+                }
+
+        }, 10000)
+
+
+}
+// On Pseudo Cart Page from Title Price ATC, check if any item in cart. It can be any item. Page will redirect to Final Checkout.
+else if (document.URL.includes('huc')) {
+        console.log(document.URL)
+
+        var soundData = new Audio("https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true");
+        soundData.play()
+
+        setTimeout(function() {
 
 
 
-        }
-         */
+        }, 3000)
 
 }
