@@ -1,6 +1,6 @@
 <img src="resources/new_logo1.gif">
 
-<iframe src="https://discord.com/widget?id=863863008329596968&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+![Discord](https://img.shields.io/discord/863863008329596968?style=for-the-badge)
 
 ```
 
