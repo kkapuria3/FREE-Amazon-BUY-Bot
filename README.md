@@ -64,6 +64,11 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 4. You are all set. Now navigate to your item page and you should see the bot work. 
 
+5. When you first time get captcha for first time you will get this prompt. You can click `Always Allow` or `Allow Once (might have to press everytime)` 
+
+<img src="resources/allow_permissions.gif">
+
+
 ## Authors
 
 * Karan Kapuria
