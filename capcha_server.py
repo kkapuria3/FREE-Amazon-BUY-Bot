@@ -31,5 +31,5 @@ def link( token, link_jpg):
 def ready():
 
     logger.info(f"Server is listening ..") 
-    return "Amazon-RefreshNoBot v2.0 | Amazon Captcha Sever is running !"
+    return "<img src='https://raw.githubusercontent.com/kkapuria3/Best-Amazon-Bot/dev-v2.0/resources/new_logo1.gif'>\n<br>\n<h2>STATUS: Amazon Captcha Sever is running !</h1><br>\n <h3>If you hear a sound when you refresh and your terminal looks like below. <br><br> <img src='https://raw.githubusercontent.com/kkapuria3/Best-Amazon-Bot/dev-v2.0/resources/python_shell1.gif'><br><br>You are all set !! You can close this tab. \n"
                    
