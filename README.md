@@ -64,10 +64,15 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 4. You are all set. Now navigate to your item page and you should see the bot work. 
 
-5. When you first time get captcha for first time you will get this prompt. You can click `Always Allow` or `Allow Once (might have to press everytime)` 
+5. When you get captcha for first time you will get this prompt. You can click `Always Allow` or `Allow Once (might have to press everytime)` 
 
 <img src="resources/allow_permissions.gif">
 
+### Where to go from here / still not working ?
+
+* Join our discord community [here](https://discord.gg/UcxcyxS5X8)
+* Ask in #general-help channel if you have problems setting up. 
+* Drops alerts on our [discord](https://discord.gg/UcxcyxS5X8)are forwared from multiple third-party telegrams.
 
 ## Authors
 
@@ -87,11 +92,13 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 * - Still No support for Amazon Captcha (Soft Ban) & Dog Pages
 * - More code commented
 * 2.0 - Fully Functional Bot with Local Gunicorn Server
-* - Using `flask`, `gunicorn` and `amazoncapcha`; we solve Amazon Captcha (Soft Ban)
+* - Using flask, gunicorn and amazoncapcha; we solve Amazon Captcha (Soft Ban)
+* - No autocheckout yet. *Will be released as minor update later.*
 * - Faster page reload on seller pages (4 Seconds)
-* - Code is still not complete commented.
-* - Dog Pages are still not handled
-* - No autocheckout yet. Will be released as minor update later.
+* - When cart is disabled with Dog Pages, it will refresh cart every 10 second
+* - When resellers are disabled, bot will show 0 items and refresh
+* - More code commented
+
 
 ## License
 
