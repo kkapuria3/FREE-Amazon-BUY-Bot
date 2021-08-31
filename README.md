@@ -33,7 +33,7 @@ FREE Amazon Buy Bot is an Add to Cart and Auto Checkout Bot. This auto buying bo
 
 #### 2. Local Dependencies
 
-1. Python 3.7+ in a Terminal. You can use either [WSL2](https://docs.microsoft.com/en-us/windows/wsl/about) or [CMD](https://www.google.com/search?client=firefox-b-1-d&q=windows+command+prompt) or [PowerShell](https://docs.microsoft.com/en-us/powershell/) or [Ananconda Prompt](https://docs.anaconda.com/anaconda/user-guide/getting-started/) to run python.
+1. Python 3.7+ in a Terminal. Please use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/about) to run python. `gunicorn` does not run on powershell or cmd.
 
 ### Installing
 
