@@ -88,7 +88,7 @@
        
                setTimeout(function() {
        
-                   document.getElementsByClassName('placeYourOrder1')[0].click()
+                   document.getElementsByName('placeYourOrder1')[0].click()
        
                }, 2000)
        
