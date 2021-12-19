@@ -55,11 +55,12 @@
        
        
        let PRODUCT_ARRAY = ["B083HZFK45", "B096YM573B", "B096WM6JFS", "B096YMW2FS", "B09B1DGRH4"];
-       const CUTOFF_ARRAY = [500, 500, 1400, 500, 500]; // No quotes
+       const CUTOFF_ARRAY = [800, 500, 1400, 500, 500]; // No quotes
        
        //____ REQUIRED FLAGS : TESTMODE OR BUY MODE _____________________________
        
-       const TESTMODE = "Yes" // This flag is unused. Will be implemented in next release
+       // Make sure your cart is EMPTY
+       const TESTMODE = "Yes" // "No" will buy the card or whatever is in your cart
        
        
        //________________________________________________________________________
@@ -84,6 +85,12 @@
                console.log('Here')
                var DA_TA_DA1 = new Audio("https://github.com/kkapuria3/Best-Amazon-Bot/blob/dev-v2.0/resources/dramatic-sound-effect.wav?raw=true");
                DA_TA_DA1.play()
+       
+           if (TESTMODE === "No") {
+       
+               document.getElementsByClassName('a-button-text place-your-order-button')[0].click()
+       
+           }
        }
        
        
@@ -287,6 +294,7 @@
                                $badge.style.transform = "translate(0, 0)"
                                let PRICES_BADGE = [];
                                console.log('START CHECKING SELLERS NOW ..')
+                               GM_setValue('seller_buy', 'false');
                                //____ TIMEOUT :  _____
                                setTimeout(function() {
        
@@ -315,17 +323,11 @@
        
                                                        const $badge = createFloatingBadge('PRICE MATCH FOUND..', SELLER_PRICE);
                                                        document.body.appendChild($badge);
-       
-       
-                                                       setTimeout(function() {
-                                                               window.open("https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1", '_blank');
-                                                               window.close()
-       
-                                                       }, 3500)
-       
                                                        // BUY WILL BE TRIGGERED HERE
                                                        console.log('LOW Price: ' + SELLER_PRICE + ' | ButtonID : ' + SELLER_BUTTON_DATA + ' | Button Number : ' + i + ' | Button TimeStamp' + Date.now() + '\n')
                                                        Seller_Buttons[i].click();
+                                                       GM_setValue('seller_buy', 'true');
+       
        
        
                                                        // If SELLER_PRICE IS HIGHER than CUTOFF_PRICE | Print the details to badge and move forward
@@ -366,9 +368,15 @@
        
                                }, 5000)
        
-                               setTimeout(function() {
-                                       location.href = "https://www.amazon.com/dp/" + AMAZON_PRODUCT_ID + "/"
-                               }, 6000)
+                           setTimeout(function() {
+                               const SELLER_BUY = GM_getValue('seller_buy');
+                               if (SELLER_BUY === 'true') {
+                               window.open("https://www.amazon.com/gp/cart/view.html?ref_=nav_cart", '_blank');
+                               window.close()
+                               } else {
+                                   location.href = "https://www.amazon.com/dp/" + AMAZON_PRODUCT_ID + "/"}
+       
+                           }, 6000)
        
                                // MAIN PRODUCT PAGE OPERATIONS
                                // If price exists in MAIN BUY BOX or NEW BUY BOX then check if its less than CUTOFF or else go to sellers page
