@@ -82,13 +82,16 @@
        // If Page is in Final Checkout Play the sound
        
        if (document.URL.includes('https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1')) {
-               console.log('Here')
-               var DA_TA_DA1 = new Audio("https://github.com/kkapuria3/Best-Amazon-Bot/blob/dev-v2.0/resources/dramatic-sound-effect.wav?raw=true");
-               DA_TA_DA1.play()
+           console.log('Here')
        
-           if (TESTMODE == "No") {
+           if (TESTMODE === "No") {
        
-               document.getElementsByName('placeYourOrder1')[0].click()
+               setTimeout(function() {
+       
+                   document.getElementsByClassName('placeYourOrder1')[0].click()
+       
+               }, 2000)
+       
        
            }
        }
