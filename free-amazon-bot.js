@@ -55,7 +55,7 @@
        
        
        let PRODUCT_ARRAY = ["B083HZFK45", "B096YM573B", "B096WM6JFS", "B096YMW2FS", "B09B1DGRH4"];
-       const CUTOFF_ARRAY = [800, 500, 1400, 500, 500]; // No quotes
+       const CUTOFF_ARRAY = [2000, 500, 1400, 500, 500]; // No quotes
        
        //____ REQUIRED FLAGS : TESTMODE OR BUY MODE _____________________________
        
@@ -86,9 +86,9 @@
                var DA_TA_DA1 = new Audio("https://github.com/kkapuria3/Best-Amazon-Bot/blob/dev-v2.0/resources/dramatic-sound-effect.wav?raw=true");
                DA_TA_DA1.play()
        
-           if (TESTMODE === "No") {
+           if (TESTMODE == "No") {
        
-               document.getElementsByClassName('a-button-text place-your-order-button')[0].click()
+               document.getElementsByName('placeYourOrder1')[0].click()
        
            }
        }
