@@ -84,7 +84,7 @@
        if (document.URL.includes('https://www.amazon.com/gp/buy/spc/handlers/display.html?hasWorkingJavascript=1')) {
            console.log('Here')
        
-           if (TESTMODE === "No") {
+           if (TESTMODE == "No") {
        
                setTimeout(function() {
        
