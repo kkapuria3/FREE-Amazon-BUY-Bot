@@ -1,3 +1,5 @@
+* Update: ***This Repository is no longer maintined. A completely new REST based tool for this is under development (August 2023)***
+<hr>
 <img src="resources/new_logo1.gif">
 
 [![Discord](https://img.shields.io/discord/863863008329596968?color=%237289da%20&label=FOR%20SUPPORT%20AND%20FAQs%20%20%7C%20JOIN%20DISCORD&style=for-the-badge)](https://discord.gg/wkznBbgBFD)
